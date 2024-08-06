@@ -1,0 +1,10 @@
+classWeight: 0.8
+epochs: 400
+updateClip: 0.005
+model_name: 'stgcn'
+data_path: '/23085412008/HelloSkeleton/data/NTU-RGB-D-60-AGCN/xview/train_data_joint.npy'
+label_path: '/23085412008/HelloSkeleton/data/NTU-RGB-D-60-AGCN/xview/train_label.pkl'
+num_frame_path: '/23085412008/HelloSkeleton/data/NTU-RGB-D-60-AGCN/xview/train_num_frame.npy'
+save_path: './对抗样本/1号测试/'
+batch_size: 16
+hookstatus: True
