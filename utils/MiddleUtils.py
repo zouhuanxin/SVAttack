@@ -1,7 +1,6 @@
 import torch
 
 
-# 注册钩子
 def register_hooks(classifier):
     for name, layer in classifier.named_modules():
         if name == 'st_gcn_networks.0.gcn' or name == 'st_gcn_networks.0.gcn.conv' \
@@ -26,14 +25,12 @@ def register_hooks(classifier):
             hook = layer.register_full_backward_hook(adjust_array)
 
 
-# 移除钩子
 def remove_hooks(self):
     for hook in self.hooks:
         hook.remove()
     self.hooks = []
 
 
-# 反向传播之前，手动修改特定层的梯度
 def scale_gradient(module, grad_input, grad_output):
     for i in range(len(grad_input)):
         grad_input[i].mul_(0.3)
@@ -44,10 +41,8 @@ def adjust_array(module, grad_input, grad_output):
     result_tensor = []
     for i in range(len(grad_input)):
         data = grad_input[i]
-        # 展平张量，以便找到最大值的前 10 个下标
         data_flat = data.reshape(-1)
         size = len(data_flat)
-        # 找到最大值的前 10 个下标
         topk_values, topk_indices = torch.topk(data_flat, int(size/4))
         data_flat[topk_indices] *= 0.5
         result_tensor.append(torch.reshape(data_flat, data.shape))
