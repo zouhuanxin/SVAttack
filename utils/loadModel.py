@@ -5,7 +5,6 @@ import torch
 sys.path.append("..")
 
 from models.stgcn.st_gcn import STGCN_Model
-from models.agcn.agcn import Model as AGCN_Model
 
 def weights_init(model):
     with torch.no_grad():
@@ -34,28 +33,10 @@ def loadSTGCN():
 
     return stgcn
 
-def loadAGCN():
-    load_path = './checkpoint/ntu_cv_agcn_joint-49-29600.pt'
-    if os.path.exists(load_path) == False:
-        load_path = '../checkpoint/ntu_cv_agcn_joint-49-29600.pt'
-    print(f'加载agcn模型:{load_path}')
-    agcn = AGCN_Model(
-        num_class=60,
-        num_point=25,
-        num_person=2,
-        graph='graph.ntu_rgb_d.Graph', graph_args={'labeling_mode': 'spatial'})
-    agcn.eval()
-    pretrained_weights = torch.load(load_path)
-    agcn.load_state_dict(pretrained_weights)
-    agcn.cuda()
-
-    return agcn
 
 def getModel(AttackedModel):
     if AttackedModel == 'stgcn':
         model = loadSTGCN()
-    elif AttackedModel == 'agcn':
-        model = loadAGCN()
     total_params = sum(p.numel() for p in model.parameters() if p.requires_grad) / 1e6
     print(f"模型总参数数量：{total_params:.2f} M")
     return model
