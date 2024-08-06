@@ -14,9 +14,8 @@ from omegaconf import OmegaConf
 class Attacker():
     def __init__(self, args):
         super().__init__()
-        self.name = 'SingleViewAttack'
-        print(f'运行参数 classWeight={args.classWeight} epochs={args.epochs} updateClip={args.updateClip}'
-              f' model_name={args.model_name} hookstatus={args.hookstatus}')
+        self.name = 'SVAttack'
+        print(f'classWeight={args.classWeight} epochs={args.epochs} updateClip={args.updateClip} model_name={args.model_name} hookstatus={args.hookstatus}')
         self.classWeight = args.classWeight
         self.epochs = args.epochs
         self.updateClip = args.updateClip
@@ -34,7 +33,7 @@ class Attacker():
         if args.hookstatus:
             register_hooks(self.classifier)
 
-    def foolRateCal(self, rlabels, flabels):  # 计算欺骗率，即成功攻击的样本所占比例
+    def foolRateCal(self, rlabels, flabels):
         hitIndices = []
 
         for i in range(0, len(flabels)):
@@ -43,19 +42,10 @@ class Attacker():
 
         return len(hitIndices) / len(flabels) * 100
 
-    def getUpdate(self, grads, input):  # 获取更新后的对抗样本
+    def getUpdate(self, grads, input):
         self.learningRate = 0.01
 
         return input - grads * self.learningRate
-
-    def reshapeData(self, x, toNative=True):  # 调整数据格式
-        if toNative:
-            x = x.permute(0, 2, 3, 1, 4)
-            x = x.reshape((x.shape[0], x.shape[1], -1, x.shape[4]))
-        else:
-            x = x.reshape((x.shape[0], x.shape[1], -1, 3, x.shape[4]))
-            x = x.permute(0, 3, 1, 2, 4)
-        return x
 
     def distribution_matching_loss(self, pred, flabels):
         pred_mean = torch.mean(pred, dim=0)
@@ -69,7 +59,7 @@ class Attacker():
         combined_loss = mean_loss + std_loss
         return combined_loss
 
-    def attack(self):  # 执行攻击的主要方法，包括对训练数据进行迭代，计算分类损失和感知损失，更新对抗样本
+    def attack(self):
         global middle_flabels
         overallFoolRate = 0
         batchTotalNum = 0
@@ -103,7 +93,6 @@ class Attacker():
             valid_data_y = []
             valid_data_flabels = []
 
-            # 迭代检查每一行
             for i in range(len(tx)):
                 if torch.all(tx[i] == 0) == False:
                     valid_data.append(tx[i])
@@ -116,7 +105,7 @@ class Attacker():
 
             tx_2d = ThreeDimensionsToTwoDimensions(tx)
 
-            adData = tx.clone()  # 复制一份数据
+            adData = tx.clone()
             adData = adData.cuda()
             adData.requires_grad = True
             maxFoolRate = np.NINF
@@ -185,16 +174,17 @@ class Attacker():
             print(f"Current fool rate is {overallFoolRate / batchTotalNum}")
 
             if len(attck_x_list) != 0:
-                # 保存
                 np.save(f'{self.save_path}/source_x_list.npy', np.stack(source_x_list))
                 np.save(f'{self.save_path}/frames_list.npy', np.stack(frames_list))
                 np.save(f'{self.save_path}/attck_x_list.npy', np.stack(attck_x_list))
                 np.save(f'{self.save_path}/source_y_list.npy', np.stack(source_y_list))
-                print(f'当前样本数量={len(attck_x_list)} 当前batchNo={batchNo}')
+                print(f'sample num={len(attck_x_list)} current batchNo={batchNo}')
 
         print(f"Overall fool rate is {overallFoolRate / batchTotalNum}")
         return overallFoolRate / batchTotalNum
-''''''
+
+
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
