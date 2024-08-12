@@ -88,6 +88,8 @@ class Attacker():
             labels = ty
             flabels = torch.ones((len(labels), 60)).cuda()
             flabels = flabels * 1 / 60
+            for i in range(len(ty)):
+                flabels[i, ty[i]] = 0.001
 
             valid_data = []
             valid_data_y = []
