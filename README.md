@@ -3,7 +3,7 @@ Spatial-Viewpoint Joint Attack on Skeleton-based Action Recognition
 
 By relying on viewpoint, spatial gradient cropping, and distribution loss techniques, this project has significantly improved the concealment and attack success rate of skeleton adversarial transfer attack samples.
 
-The operating results of this project refer to:  
+## The operating results of this project refer to:  
 Among them, 3D-Perceptial represents the perception of the generated sample in 3D, 2D-Perceptial represents the perception of the generated sample in a specific 2D perspective, and var represents the sample variance.
 |  Algorithm | Proxy Model  | AGCN  | MSG3D | STGCN |
 |  ----  | ----  | ----  | ----  | ----  | 
@@ -33,14 +33,24 @@ Among them, 3D-Perceptial represents the perception of the generated sample in 3
 | MI-FGSM  | CTRGCN | 12.90 | 0.11 | 38 |
 | SMART  | CTRGCN | 6.10 | 0.05 | 19 |
 
-Catalog introduction of this project:    
+|  Algorithm | Proxy Model  | perception  | STGCN | MSG3D | ASGCN |
+|  ----  | ----  | ----  | ----  | ----  |  ----  | 
+| SVAttack | AGCN | 12.77 | 4.58% | 24.44% | 28.34% |
+| S<sub>2</sub>I-FGSM  | AGCN | 27.67 | 5.97% | 7.61% | 9.07% |
+| S<sub>2</sub>I-FGSM  | AGCN | 45.67 | 8.84% | 9.99% | 12.29% |
+| S<sub>2</sub>I-FGSM  | AGCN | 65.60 | 9.96% | 11.69% | 14.67% |
+| S<sub>2</sub>MI-FGSM  | AGCN | 37.46 | 6.66% | 8.39% | 10.90% |
+| S<sub>2</sub>MI-FGSM  | AGCN | 62.04 | 9.19% | 12.98% | 14.37% |
+| S<sub>2</sub>MI-FGSM  | AGCN | 90.93 | 11.56% | 14.11% | 17.75% |
+
+## Catalog introduction of this project:    
 configs：Configuration file directory  
 feeder：Data loader configuration directory (different input data formats may be required for different models)  
 models：model storage directory  
 utils：Tool classes for storing related viewpoint calculations and gradient clipping calculations  
 
 
-Run command:    
+## Run command:    
 ```python
 python attack.py --config ./configs/stgcn.yaml
 ```
