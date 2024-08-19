@@ -4,12 +4,12 @@ Spatial-Viewpoint Joint Attack on Skeleton-based Action Recognition
 依赖于视点，空间梯度裁剪和分布损失技术，本项目在骨架对抗迁移攻击样本的隐蔽性和攻击成功率上有了非常明显的提升。
 
 本项目运行结果参考：   
-|  Algorithm   | AGCN  | MSG3D | STGCN |
-|  ----  | ----  | ----  | ----  |
-| SVAttack  | 34.18% | 28.63% | 14.42% |
-| I-FGSM  | 10.46% | 15.32% | 5.94% |
-| MI-FGSM  | 2.80% | 3.38% | 1.26% |
-| SSMART  | 8.40% | 7.57% | 5.92% |
+|  Algorithm | Surrogate Model  | AGCN  | MSG3D | STGCN |
+|  ----  | ----  | ----  | ----  | ----  |
+| SVAttack | STGCN | 34.18% | 28.63% | 14.42% |
+| I-FGSM  | STGCN | 10.46% | 15.32% | 5.94% |
+| MI-FGSM  | STGCN | 2.80% | 3.38% | 1.26% |
+| SSMART  | STGCN | 8.40% | 7.57% | 5.92% |
 
 本项目目录介绍：  
 configs：配置文件目录  
