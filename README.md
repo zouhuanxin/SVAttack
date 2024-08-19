@@ -12,5 +12,5 @@ utils：存放相关视点计算与梯度裁剪计算的相关工具类
 
 运行命令：
 ```python
-python attack.py
+python attack.py --config ./configs/stgcn.yaml
 ```
