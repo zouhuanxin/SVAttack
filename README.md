@@ -1,9 +1,10 @@
 # SVAttack
 Spatial-Viewpoint Joint Attack on Skeleton-based Action Recognition
 
-依赖于视点，空间梯度裁剪和分布损失技术，本项目在骨架对抗迁移攻击样本的隐蔽性和攻击成功率上有了非常明显的提升。
+By relying on viewpoint, spatial gradient cropping, and distribution loss techniques, this project has significantly improved the concealment and attack success rate of skeleton adversarial transfer attack samples.
 
-本项目运行结果参考：   
+The operating results of this project refer to:  
+Among them, 3D-Perceptial represents the perception of the generated sample in 3D, 2D-Perceptial represents the perception of the generated sample in a specific 2D perspective, and var represents the sample variance.
 |  Algorithm | Proxy Model  | AGCN  | MSG3D | STGCN |
 |  ----  | ----  | ----  | ----  | ----  | 
 | SVAttack | STGCN | 34.18% | 28.63% | 14.42% |
@@ -32,14 +33,14 @@ Spatial-Viewpoint Joint Attack on Skeleton-based Action Recognition
 | MI-FGSM  | CTRGCN | 12.90 | 0.11 | 38 |
 | SMART  | CTRGCN | 6.10 | 0.05 | 19 |
 
-本项目目录介绍：  
-configs：配置文件目录  
-feeder：数据加载器配置目录（对于不同模型可能需要不同的输入数据格式）  
-models：模型存放目录   
-utils：存放相关视点计算与梯度裁剪计算的相关工具类   
+Catalog introduction of this project:    
+configs：Configuration file directory  
+feeder：Data loader configuration directory (different input data formats may be required for different models)  
+models：model storage directory  
+utils：Tool classes for storing related viewpoint calculations and gradient clipping calculations  
 
 
-运行命令：  
+Run command:    
 ```python
 python attack.py --config ./configs/stgcn.yaml
 ```
